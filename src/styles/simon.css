@@ -1,0 +1,49 @@
+.parentSimon{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ligne{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+
+}
+
+.btnSimon{
+  width: 200px;
+  height: 200px;
+}
+.simonVert{
+
+  border-top-left-radius: 90%;
+  border-bottom-right-radius: 0%;
+  background-color: green;
+}
+
+.simonRouge{
+  margin-left:20px;
+  border-top-right-radius: 90%;
+  border-bottom-right-radius: 0%;
+  background-color: red;
+}
+
+.simonJaune{
+
+  border-bottom-left-radius: 90%;
+  border-bottom-right-radius: 0%;
+  background-color: yellow;
+}
+
+.simonBleu{
+  margin-left:20px;
+  border-bottom-left-radius: 0%;
+  border-bottom-right-radius: 90%;
+  background-color: blue;
+}
+
+.active{
+  background-color: white !important;
+}
