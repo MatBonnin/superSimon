@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 const SimonComponent: React.FC = () => {
   const [sequence, setSequence] = useState<number[]>([]);
-  const [activeColor, setActiveColor] = useState<number | null>(0);
+  const [activeColor, setActiveColor] = useState<number | null>(-1);
   const [sequenceIndex, setSequenceIndex] = useState<number>(0);
   useEffect(() => {
     const initialSequence = Array.from({ length: 4 }, () => Math.floor(Math.random() * 4));
@@ -15,25 +15,23 @@ const SimonComponent: React.FC = () => {
    
   }, []);
 useEffect(() => {
-  if (sequence && sequenceIndex <= sequence.length - 1) {
+  if (sequence && sequenceIndex < sequence.length) {
     const timeout = setTimeout(() => {
+      
       setActiveColor(sequence[sequenceIndex]);
-      setSequenceIndex(sequenceIndex + 1);
-    }, 1000); // 1000 ms = 1 seconde
 
-    const timeout2 = setTimeout(() => {
-      setActiveColor(-1);
-    }, 1500); // 1500 ms = 1.5 secondes (pour éviter un conflit avec le premier timeout)
+   
+      const timeout2 = setTimeout(() => {
+        setActiveColor(-1); 
+        setSequenceIndex(sequenceIndex + 1); 
+      }, 1000); 
 
-    return () => {
-      clearTimeout(timeout); // Nettoyage du premier timeout
-      clearTimeout(timeout2); // Nettoyage du second timeout
-    };
+      return () => clearTimeout(timeout2); 
+    }, 1000); 
+
+    return () => clearTimeout(timeout); 
   }
 }, [sequenceIndex, sequence]);
-
-
- 
 
 
 
