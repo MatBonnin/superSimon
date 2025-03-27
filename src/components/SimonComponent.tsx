@@ -8,29 +8,30 @@ const SimonComponent: React.FC = () => {
   const [sequence, setSequence] = useState<number[]>(initialSequence);
   const [sequenceIndex, setSequenceIndex] = useState<number>(0);
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(false);
-  const [message,setMessage]= useState<string>('rien')
-
+  const [message, setMessage] = useState<string>('rien');
   const [manche, setManche] = useState<number>(0);
 
-  const activeColor = useMemo(() => {
-    return sequence[sequenceIndex];
-  }, [sequence, sequenceIndex]);
+  const activeColor = useMemo(() => sequence[sequenceIndex], [sequence, sequenceIndex]);
 
-  // const message = useMemo(() => {
-  //   if (sequenceIndex === sequence.length - 1){
-  //     return 'Vous avez gagné'
-  //   }
-  //   else{
-  //     return 'A vous de jouer'
-  //   }
-   
-  // }, [sequence, sequenceIndex]);
+  // Fonction pour envoyer la notification
+  const sendNotification = () => {
+    if (!("Notification" in window)) {
+      console.log("Les notifications ne sont pas supportées par ce navigateur.");
+      return;
+    }
 
-
-
+    if (Notification.permission === "granted") {
+      new Notification("Bravo !", { body: "Vous avez gagné cette manche !" });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification("Bravo !", { body: "Vous avez gagné cette manche !" });
+        }
+      });
+    }
+  };
 
   useEffect(() => {
-  
     if (!isPlayerTurn && sequenceIndex < sequence.length) {
       setTimeout(() => {
         setSequenceIndex(sequenceIndex + 1);
@@ -43,35 +44,37 @@ const SimonComponent: React.FC = () => {
 
   const playerClick = (color: number) => {
     if (navigator.vibrate) {
-      // Vibre pendant 200 ms
-      setMessage('La vibration devrait focntionner')
+      setMessage('La vibration devrait fonctionner');
       navigator.vibrate(200);
-      
     } else {
-      setMessage('pas de vibration');
+      setMessage('Pas de vibration');
       console.log("La vibration n'est pas supportée sur cet appareil.");
     }
+    
     if (sequence[sequenceIndex] === color) {
+      // Si c'est le dernier de la séquence, le joueur a gagné la manche
       if (sequenceIndex === sequence.length - 1) {
+        // Envoi de la notification de victoire
+        sendNotification();
         
-        setSequence([...sequence, Math.floor(Math.random() * 4)])
-        setSequenceIndex(0)
-        setIsPlayerTurn(false)
-      }
-      else{
+        // Ajout d'une nouvelle étape à la séquence et réinitialisation
+        setSequence([...sequence, Math.floor(Math.random() * 4)]);
+        setSequenceIndex(0);
+        setIsPlayerTurn(false);
+      } else {
         setSequenceIndex(sequenceIndex + 1);
-
       }
+    } else {
+      // Optionnel : gérer le cas d'une erreur du joueur
+      setMessage("Raté ! Essaie encore.");
+      // Ici, tu pourrais aussi réinitialiser la séquence ou la manche, selon ta logique de jeu
     }
-
   };
 
-  const getClassP = () => {
-    return `${sequenceIndex === sequence.length ? 'displayP' : 'hideP'}`;
-  };
+  const getClassP = () => `${sequenceIndex === sequence.length ? 'displayP' : 'hideP'}`;
 
   const getClassName = (baseClass: string, colorIndex: number) => {
-    return `${baseClass} ${ (activeColor === colorIndex && !isPlayerTurn) ? 'active' : ''}`;
+    return `${baseClass} ${activeColor === colorIndex && !isPlayerTurn ? 'active' : ''}`;
   };
 
   return (
