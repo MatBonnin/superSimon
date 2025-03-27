@@ -30,12 +30,7 @@ const SimonComponent: React.FC = () => {
 
 
   useEffect(() => {
-    if (navigator.vibrate) {
-      // Vibre pendant 200 ms
-      navigator.vibrate(200);
-    } else {
-      console.log("La vibration n'est pas supportée sur cet appareil.");
-    }
+  
     if (!isPlayerTurn && sequenceIndex < sequence.length) {
       setTimeout(() => {
         setSequenceIndex(sequenceIndex + 1);
@@ -47,6 +42,12 @@ const SimonComponent: React.FC = () => {
   }, [sequenceIndex, sequence, isPlayerTurn]);
 
   const playerClick = (color: number) => {
+    if (navigator.vibrate) {
+      // Vibre pendant 200 ms
+      navigator.vibrate(200);
+    } else {
+      console.log("La vibration n'est pas supportée sur cet appareil.");
+    }
     if (sequence[sequenceIndex] === color) {
       if (sequenceIndex === sequence.length - 1) {
         
