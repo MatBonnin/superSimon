@@ -10,16 +10,32 @@ const SimonComponent: React.FC = () => {
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(false);
   
 
-  const [message, setMessage] = useState<string>('A vous de jouer');
   const [manche, setManche] = useState<number>(0);
 
   const activeColor = useMemo(() => {
     return sequence[sequenceIndex];
   }, [sequence, sequenceIndex]);
 
+  const message = useMemo(() => {
+    if (sequenceIndex === sequence.length - 1){
+      return 'Vous avez gagné'
+    }
+    else{
+      return 'A vous de jouer'
+    }
+   
+  }, [sequence, sequenceIndex]);
+
+
 
 
   useEffect(() => {
+    if (navigator.vibrate) {
+      // Vibre pendant 200 ms
+      navigator.vibrate(200);
+    } else {
+      console.log("La vibration n'est pas supportée sur cet appareil.");
+    }
     if (!isPlayerTurn && sequenceIndex < sequence.length) {
       setTimeout(() => {
         setSequenceIndex(sequenceIndex + 1);
@@ -33,7 +49,6 @@ const SimonComponent: React.FC = () => {
   const playerClick = (color: number) => {
     if (sequence[sequenceIndex] === color) {
       if (sequenceIndex === sequence.length - 1) {
-        setMessage('Vous avez gagné');
         
         setSequence([...sequence, Math.floor(Math.random() * 4)])
         setSequenceIndex(0)
@@ -43,8 +58,6 @@ const SimonComponent: React.FC = () => {
         setSequenceIndex(sequenceIndex + 1);
 
       }
-    } else {
-      setMessage('Vous avez perdu !');
     }
 
   };
@@ -59,7 +72,7 @@ const SimonComponent: React.FC = () => {
 
   return (
     <div className="parentSimon">
-      <p className={getClassP()}>{message}</p> {/* Affiche le message dynamique */}
+      <p>{message}</p> {/* Affiche le message dynamique */}
       <div className="ligne">
         <button onClick={() => playerClick(0)} className={getClassName('btnSimon simonVert', 0)}></button>
         <button onClick={() => playerClick(1)} className={getClassName('btnSimon simonRouge', 1)}></button>
