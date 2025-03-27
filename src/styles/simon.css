@@ -1,8 +1,28 @@
-.parentSimon{
+.parentSimon {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative; /* Nécessaire pour l'animation */
+  animation: swayAndRotate 4s ease-in-out infinite; /* Animation infinie avec un effet fluide */
+}
+
+@keyframes swayAndRotate {
+  0% {
+    transform: translateX(0) rotate(0deg); /* Position initiale */
+  }
+  25% {
+    transform: translateX(200px) translateY(-100px)  rotate(40deg); /* Légèrement à droite avec une petite rotation */
+  }
+  50% {
+    transform: translateX(-100px) translateY(-100px) rotate(90deg); /* Légèrement à gauche avec une rotation inverse */
+  }
+  75% {
+    transform: translateX(120px) translateY(210px) rotate(5deg); /* Retourne légèrement à droite */
+  }
+  100% {
+    transform: translateX(0) rotate(0deg); /* Retour à la position initiale */
+  }
 }
 
 .ligne{
@@ -12,10 +32,36 @@
 
 }
 
-.btnSimon{
+.btnSimon {
   width: 200px;
   height: 200px;
+  position: relative;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5); /* Effet néon initial */
+  animation: neonDisco 2s infinite alternate; /* Animation néon disco */
 }
+
+@keyframes neonDisco {
+  0% {
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8), 0 0 30px 10px rgba(255, 0, 0, 0.6);
+  }
+  25% {
+    box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.8), 0 0 30px 10px rgba(0, 255, 0, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(0, 0, 255, 0.8), 0 0 30px 10px rgba(0, 0, 255, 0.6);
+  }
+  75% {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 0, 0.8), 0 0 30px 10px rgba(255, 255, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 20px 5px rgba(255, 0, 255, 0.8), 0 0 30px 10px rgba(255, 0, 255, 0.6);
+  }
+}
+
+
 .simonVert{
 
   border-top-left-radius: 90%;
