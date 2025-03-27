@@ -8,7 +8,7 @@ const SimonComponent: React.FC = () => {
   const [sequence, setSequence] = useState<number[]>(initialSequence);
   const [sequenceIndex, setSequenceIndex] = useState<number>(0);
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(false);
-  
+  const [message,setMessage]= useState<string>('rien')
 
   const [manche, setManche] = useState<number>(0);
 
@@ -16,15 +16,15 @@ const SimonComponent: React.FC = () => {
     return sequence[sequenceIndex];
   }, [sequence, sequenceIndex]);
 
-  const message = useMemo(() => {
-    if (sequenceIndex === sequence.length - 1){
-      return 'Vous avez gagné'
-    }
-    else{
-      return 'A vous de jouer'
-    }
+  // const message = useMemo(() => {
+  //   if (sequenceIndex === sequence.length - 1){
+  //     return 'Vous avez gagné'
+  //   }
+  //   else{
+  //     return 'A vous de jouer'
+  //   }
    
-  }, [sequence, sequenceIndex]);
+  // }, [sequence, sequenceIndex]);
 
 
 
@@ -44,8 +44,11 @@ const SimonComponent: React.FC = () => {
   const playerClick = (color: number) => {
     if (navigator.vibrate) {
       // Vibre pendant 200 ms
+      setMessage('La vibration devrait focntionner')
       navigator.vibrate(200);
+      
     } else {
+      setMessage('pas de vibration');
       console.log("La vibration n'est pas supportée sur cet appareil.");
     }
     if (sequence[sequenceIndex] === color) {
