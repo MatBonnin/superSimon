@@ -55,7 +55,7 @@ const SimonComponent: React.FC = () => {
       // Si c'est le dernier de la séquence, le joueur a gagné la manche
       if (sequenceIndex === sequence.length - 1) {
         // Envoi de la notification de victoire
-        sendNotification();
+        // sendNotification();
         
         // Ajout d'une nouvelle étape à la séquence et réinitialisation
         setSequence([...sequence, Math.floor(Math.random() * 4)]);
