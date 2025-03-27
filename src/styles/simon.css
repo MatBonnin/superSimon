@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   position: relative; /* Nécessaire pour l'animation */
-  animation: swayAndRotate 4s ease-in-out infinite; /* Animation infinie avec un effet fluide */
+  animation: swayAndRotate 2s ease-in-out infinite; /* Animation infinie avec un effet fluide */
 }
 
 @keyframes swayAndRotate {
